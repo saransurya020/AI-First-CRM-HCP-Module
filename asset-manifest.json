@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/AI-First-CRM-HCP-Module/static/css/main.9937a0a1.css",
+    "main.js": "/AI-First-CRM-HCP-Module/static/js/main.ad7fe549.js",
+    "index.html": "/AI-First-CRM-HCP-Module/index.html",
+    "main.9937a0a1.css.map": "/AI-First-CRM-HCP-Module/static/css/main.9937a0a1.css.map",
+    "main.ad7fe549.js.map": "/AI-First-CRM-HCP-Module/static/js/main.ad7fe549.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.9937a0a1.css",
+    "static/js/main.ad7fe549.js"
+  ]
+}
