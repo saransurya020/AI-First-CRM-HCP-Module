@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/AI-First-CRM-HCP-Module/static/css/main.9937a0a1.css",
-    "main.js": "/AI-First-CRM-HCP-Module/static/js/main.f8ea4d94.js",
+    "main.js": "/AI-First-CRM-HCP-Module/static/js/main.777e83aa.js",
     "index.html": "/AI-First-CRM-HCP-Module/index.html",
     "main.9937a0a1.css.map": "/AI-First-CRM-HCP-Module/static/css/main.9937a0a1.css.map",
-    "main.f8ea4d94.js.map": "/AI-First-CRM-HCP-Module/static/js/main.f8ea4d94.js.map"
+    "main.777e83aa.js.map": "/AI-First-CRM-HCP-Module/static/js/main.777e83aa.js.map"
   },
   "entrypoints": [
     "static/css/main.9937a0a1.css",
-    "static/js/main.f8ea4d94.js"
+    "static/js/main.777e83aa.js"
   ]
 }
