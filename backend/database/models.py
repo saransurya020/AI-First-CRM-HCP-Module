@@ -41,8 +41,18 @@ class Interaction(Base):
     summary = Column(Text)
     topics_discussed = Column(Text)                     # comma-separated or JSON string
     sentiment = Column(String(50))                      # positive / neutral / negative
-    follow_up_date = Column(DateTime, nullable=True)
+    follow_up_date = Column(String(255), nullable=True)
     raw_transcript = Column(Text, nullable=True)         # full chat transcript, if mode == "chat"
+    interaction_type = Column(String(50), default="Meeting")
+    interaction_date = Column(String(50))
+    interaction_time = Column(String(50))
+    attendees = Column(String(255))
+    materials_shared = Column(String(500))
+    samples_distributed = Column(String(500))
+
+    @property
+    def hcp_name(self):
+        return self.hcp.name if self.hcp else None
 
     hcp = relationship("HCP", back_populates="interactions")
     rep = relationship("User", back_populates="interactions")

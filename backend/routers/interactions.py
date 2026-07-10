@@ -28,6 +28,12 @@ def create_interaction(payload: InteractionCreate, db: Session = Depends(get_db)
         sentiment=payload.sentiment,
         follow_up_date=payload.follow_up_date,
         raw_transcript=payload.raw_transcript,
+        interaction_type=payload.interaction_type,
+        interaction_date=payload.interaction_date,
+        interaction_time=payload.interaction_time,
+        attendees=payload.attendees,
+        materials_shared=payload.materials_shared,
+        samples_distributed=payload.samples_distributed,
     )
     db.add(interaction)
     db.commit()
@@ -54,7 +60,18 @@ def update_interaction(interaction_id: int, payload: InteractionUpdate, db: Sess
     if not interaction:
         raise HTTPException(status_code=404, detail="Interaction not found")
 
-    for field, value in payload.dict(exclude_unset=True).items():
+    data_dict = payload.dict(exclude_unset=True)
+    if "hcp_name" in data_dict:
+        hcp_name = data_dict.pop("hcp_name")
+        if hcp_name:
+            hcp = db.query(HCP).filter(HCP.name == hcp_name).first()
+            if not hcp:
+                hcp = HCP(name=hcp_name)
+                db.add(hcp)
+                db.flush()
+            interaction.hcp_id = hcp.id
+
+    for field, value in data_dict.items():
         setattr(interaction, field, value)
 
     db.commit()

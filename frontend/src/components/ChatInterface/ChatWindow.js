@@ -56,6 +56,24 @@ export default function ChatWindow() {
             }}>
               Log interaction details here (e.g., "Met Dr. Smith, discussed Prodo-X efficacy, positive sentiment, shared brochure") or ask for help.
             </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
+              {suggestedPrompts.map((prompt, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSend(prompt)}
+                  style={{
+                    background: 'white', border: '1px solid #cbd5e1', color: '#475569',
+                    padding: '8px 12px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', textAlign: 'left',
+                    transition: 'all 0.2s', alignSelf: 'flex-start'
+                  }}
+                  onMouseOver={e => { e.target.style.background = '#f8fafc'; e.target.style.borderColor = '#94a3b8'; }}
+                  onMouseOut={e => { e.target.style.background = 'white'; e.target.style.borderColor = '#cbd5e1'; }}
+                >
+                  <Sparkles size={14} style={{ display: 'inline', marginRight: '6px', color: '#3b82f6', verticalAlign: 'middle' }} />
+                  {prompt}
+                </button>
+              ))}
+            </div>
           </div>
         )}
         {messages.map((m, idx) => (

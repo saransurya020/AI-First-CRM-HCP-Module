@@ -1,7 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Mic, Search, PackagePlus, Clock, Calendar, Plus } from "lucide-react";
 
 export default function FormFields({ formData, onChange }) {
+  const [isListening, setIsListening] = useState(false);
+
+  const startListening = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    
+    recognition.onstart = () => setIsListening(true);
+    recognition.onend = () => setIsListening(false);
+    
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      const current = formData.topics_discussed || "";
+      onChange("topics_discussed", current ? `${current} ${transcript}` : transcript);
+    };
+    
+    recognition.onerror = (event) => {
+      console.error(event.error);
+      setIsListening(false);
+    };
+    
+    recognition.start();
+  };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
@@ -81,12 +110,18 @@ export default function FormFields({ formData, onChange }) {
           </div>
         </div>
         
-        <button type="button" style={{ 
+        <button 
+          type="button" 
+          onClick={startListening}
+          style={{ 
           display: 'inline-flex', alignItems: 'center', gap: '6px', 
-          background: '#f1f5f9', border: '1px solid #e2e8f0', color: '#475569', 
-          padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 500, cursor: 'pointer' 
+          background: isListening ? '#fee2e2' : '#f1f5f9', 
+          border: '1px solid', borderColor: isListening ? '#fecaca' : '#e2e8f0', 
+          color: isListening ? '#ef4444' : '#475569', 
+          padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 500, cursor: 'pointer', transition: 'all 0.2s' 
         }}>
-          <Mic size={14} /> Summarize from Voice Note (Requires Consent)
+          <Mic size={14} className={isListening ? "pulse-animation" : ""} /> 
+          {isListening ? "Listening..." : "Summarize from Voice Note (Requires Consent)"}
         </button>
       </section>
 
@@ -99,9 +134,20 @@ export default function FormFields({ formData, onChange }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
             <div>
               <div style={{ fontSize: '14px', fontWeight: 500, color: '#334155', marginBottom: '4px' }}>Materials Shared</div>
-              <div style={{ fontSize: '12px', color: '#94a3b8', fontStyle: 'italic' }}>No materials added.</div>
+              <div style={{ fontSize: '12px', color: '#94a3b8', fontStyle: formData.materials_shared ? 'normal' : 'italic' }}>
+                {formData.materials_shared || "No materials added."}
+              </div>
             </div>
-            <button type="button" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'white', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', color: '#475569' }}>
+            <button 
+              type="button" 
+              onClick={() => {
+                const item = window.prompt("Enter material name:");
+                if (item) {
+                  const current = formData.materials_shared || "";
+                  onChange("materials_shared", current ? `${current}, ${item}` : item);
+                }
+              }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'white', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', color: '#475569' }}>
               <Search size={14} /> Search/Add
             </button>
           </div>
@@ -109,9 +155,20 @@ export default function FormFields({ formData, onChange }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
             <div>
               <div style={{ fontSize: '14px', fontWeight: 500, color: '#334155', marginBottom: '4px' }}>Samples Distributed</div>
-              <div style={{ fontSize: '12px', color: '#94a3b8', fontStyle: 'italic' }}>No samples added.</div>
+              <div style={{ fontSize: '12px', color: '#94a3b8', fontStyle: formData.samples_distributed ? 'normal' : 'italic' }}>
+                {formData.samples_distributed || "No samples added."}
+              </div>
             </div>
-            <button type="button" style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'white', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', color: '#475569' }}>
+            <button 
+              type="button" 
+              onClick={() => {
+                const item = window.prompt("Enter sample name/quantity:");
+                if (item) {
+                  const current = formData.samples_distributed || "";
+                  onChange("samples_distributed", current ? `${current}, ${item}` : item);
+                }
+              }}
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'white', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', color: '#475569' }}>
               <PackagePlus size={14} /> Add Sample
             </button>
           </div>
@@ -172,13 +229,19 @@ export default function FormFields({ formData, onChange }) {
         <div>
           <div style={{ fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '8px' }}>AI Suggested Follow-ups:</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <div style={{ color: '#3b82f6', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div 
+              onClick={() => onChange("follow_up_date", formData.follow_up_date ? `${formData.follow_up_date}\n- Schedule follow-up meeting in 2 weeks` : "- Schedule follow-up meeting in 2 weeks")}
+              style={{ color: '#3b82f6', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Plus size={14} /> Schedule follow-up meeting in 2 weeks
             </div>
-            <div style={{ color: '#3b82f6', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div 
+              onClick={() => onChange("follow_up_date", formData.follow_up_date ? `${formData.follow_up_date}\n- Send OncoBoost Phase III PDF` : "- Send OncoBoost Phase III PDF")}
+              style={{ color: '#3b82f6', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Plus size={14} /> Send OncoBoost Phase III PDF
             </div>
-            <div style={{ color: '#3b82f6', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div 
+              onClick={() => onChange("follow_up_date", formData.follow_up_date ? `${formData.follow_up_date}\n- Add Dr. Sharma to advisory board invite list` : "- Add Dr. Sharma to advisory board invite list")}
+              style={{ color: '#3b82f6', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Plus size={14} /> Add Dr. Sharma to advisory board invite list
             </div>
           </div>

@@ -1,10 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { sendChatMessage } from "../../api/apiClient";
 
+import { fetchInteractions } from "./interactionSlice";
+
 export const sendMessage = createAsyncThunk(
   "chat/sendMessage",
-  async ({ message, sessionId, repId }) => {
+  async ({ message, sessionId, repId }, { dispatch }) => {
     const res = await sendChatMessage(message, sessionId, repId);
+    
+    // If the AI modified or created an interaction, refresh the list
+    if (res.data.tool_used && res.data.tool_used.includes("interaction")) {
+      dispatch(fetchInteractions());
+    }
+    
     return { userMessage: message, ...res.data };
   }
 );

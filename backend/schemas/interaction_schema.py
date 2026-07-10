@@ -27,16 +27,27 @@ class InteractionCreate(BaseModel):
     summary: Optional[str] = None
     topics_discussed: Optional[str] = None
     sentiment: Optional[str] = None
-    follow_up_date: Optional[datetime] = None
+    follow_up_date: Optional[str] = None
     raw_transcript: Optional[str] = None
-
+    interaction_type: Optional[str] = "Meeting"
+    interaction_date: Optional[str] = None
+    interaction_time: Optional[str] = None
+    attendees: Optional[str] = None
+    materials_shared: Optional[str] = None
+    samples_distributed: Optional[str] = None
 
 class InteractionUpdate(BaseModel):
     summary: Optional[str] = None
     topics_discussed: Optional[str] = None
     sentiment: Optional[str] = None
-    follow_up_date: Optional[datetime] = None
-
+    follow_up_date: Optional[str] = None
+    interaction_type: Optional[str] = None
+    interaction_date: Optional[str] = None
+    interaction_time: Optional[str] = None
+    attendees: Optional[str] = None
+    materials_shared: Optional[str] = None
+    samples_distributed: Optional[str] = None
+    hcp_name: Optional[str] = None
 
 class InteractionOut(BaseModel):
     id: int
@@ -47,8 +58,15 @@ class InteractionOut(BaseModel):
     summary: Optional[str]
     topics_discussed: Optional[str]
     sentiment: Optional[str]
-    follow_up_date: Optional[datetime]
+    follow_up_date: Optional[str]
     raw_transcript: Optional[str]
+    interaction_type: Optional[str]
+    interaction_date: Optional[str]
+    interaction_time: Optional[str]
+    attendees: Optional[str]
+    materials_shared: Optional[str]
+    samples_distributed: Optional[str]
+    hcp_name: Optional[str]
 
     class Config:
         from_attributes = True

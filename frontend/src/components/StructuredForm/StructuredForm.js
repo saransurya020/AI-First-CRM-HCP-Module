@@ -9,6 +9,8 @@ const initialFormState = {
   interaction_date: new Date().toISOString().split('T')[0],
   interaction_time: "19:36",
   attendees: "",
+  materials_shared: "",
+  samples_distributed: "",
   topics_discussed: "",
   summary: "", // for Outcomes
   sentiment: "neutral",
