@@ -29,6 +29,9 @@ def log_interaction_tool(text: str, rep_id: int | None = None) -> dict:
             topics_discussed=entities.get("topics_discussed"),
             sentiment=entities.get("sentiment"),
             raw_transcript=text,
+            follow_up_date=entities.get("follow_up_date"),
+            interaction_date=entities.get("interaction_date") or datetime.utcnow().strftime("%Y-%m-%d"),
+            interaction_time=entities.get("interaction_time") or datetime.utcnow().strftime("%H:%M"),
             date=datetime.utcnow(),
         )
         db.add(interaction)

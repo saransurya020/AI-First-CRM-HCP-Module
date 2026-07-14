@@ -66,8 +66,10 @@ export default function ChatInput({ onSend, disabled }) {
         style={{ 
           flex: 1, 
           borderRadius: '16px', 
-          border: '1px solid #d1d5db', 
-          padding: '16px', 
+          border: '1px solid rgba(148, 163, 184, 0.2)', 
+          background: 'rgba(15, 23, 42, 0.6)',
+          color: 'var(--text-main)',
+          padding: '16px 16px 16px 60px', 
           outline: 'none', 
           resize: 'vertical',
           minHeight: '50px',
@@ -75,8 +77,8 @@ export default function ChatInput({ onSend, disabled }) {
           fontFamily: 'inherit',
           fontSize: '14px'
         }}
-        onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-        onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+        onFocus={(e) => { e.target.style.borderColor = 'var(--primary)'; e.target.style.background = 'rgba(15, 23, 42, 0.9)'; }}
+        onBlur={(e) => { e.target.style.borderColor = 'rgba(148, 163, 184, 0.2)'; e.target.style.background = 'rgba(15, 23, 42, 0.6)'; }}
       />
       <button
         type="button"
@@ -85,24 +87,43 @@ export default function ChatInput({ onSend, disabled }) {
         title="Dictate message"
         style={{
           position: 'absolute',
-          right: '80px',
-          background: 'none',
-          border: 'none',
+          left: '16px',
+          background: isListening ? 'linear-gradient(135deg, #06b6d4, #a855f7)' : 'rgba(6, 182, 212, 0.1)',
+          border: '1px solid rgba(6, 182, 212, 0.3)',
           cursor: disabled ? 'default' : 'pointer',
-          color: isListening ? '#ef4444' : '#9ca3af',
+          color: isListening ? '#ffffff' : '#06b6d4',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '8px'
+          width: '36px',
+          height: '36px',
+          borderRadius: '50%',
+          zIndex: 10,
+          transition: 'all 0.3s',
+          boxShadow: isListening ? '0 0 25px rgba(6, 182, 212, 0.8), 0 0 45px rgba(168, 85, 247, 0.6)' : 'none'
         }}
       >
-        <Mic size={20} className={isListening ? "pulse-animation" : ""} />
+        <Mic size={20} style={{ transform: isListening ? 'scale(1.1)' : 'scale(1)' }} />
+        {isListening && (
+          <div style={{
+            position: 'absolute', top: '-10px', left: '-10px', right: '-10px', bottom: '-10px',
+            borderRadius: '50%', border: '2px solid rgba(6, 182, 212, 0.5)',
+            animation: 'ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite'
+          }}></div>
+        )}
+        {isListening && (
+          <div style={{
+            position: 'absolute', top: '-20px', left: '-20px', right: '-20px', bottom: '-20px',
+            borderRadius: '50%', border: '1px solid rgba(168, 85, 247, 0.3)',
+            animation: 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite'
+          }}></div>
+        )}
       </button>
       <button 
         type="submit" 
         disabled={disabled || !value.trim()}
         style={{ 
-          background: (!disabled && value.trim()) ? '#007bff' : '#9ca3af',
+          background: (!disabled && value.trim()) ? 'linear-gradient(135deg, var(--primary), var(--secondary))' : 'rgba(148, 163, 184, 0.2)',
           color: 'white',
           border: 'none',
           borderRadius: '16px',
@@ -114,7 +135,8 @@ export default function ChatInput({ onSend, disabled }) {
           justifyContent: 'center',
           cursor: (!disabled && value.trim()) ? 'pointer' : 'default',
           fontWeight: 600,
-          fontSize: '14px'
+          fontSize: '14px',
+          transition: 'all 0.3s'
         }}
       >
         Log

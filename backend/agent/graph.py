@@ -10,7 +10,6 @@ run it, and return a natural-language reply.
 """
 from langgraph.graph import StateGraph, END
 from agent.state import AgentState
-from agent.llm import llm_primary
 from agent.tools.log_interaction_tool import log_interaction_tool
 from agent.tools.edit_interaction_tool import edit_interaction_tool
 from agent.tools.search_hcp_tool import search_hcp_tool
@@ -33,9 +32,18 @@ Message: "{message}"
 
 
 def classify_intent_node(state: AgentState) -> AgentState:
-    prompt = INTENT_PROMPT.format(message=state["user_message"])
-    result = llm_primary.invoke(prompt).content.strip().lower()
-    intent = result if result in {"log", "edit", "search", "followup", "summarize"} else "log"
+    text = state["user_message"].lower().strip()
+    intent = "log"
+    
+    if text.startswith("edit") or text.startswith("update") or text.startswith("change") or text.startswith("correct"):
+        intent = "edit"
+    elif text.startswith("search") or text.startswith("find") or text.startswith("show history"):
+        intent = "search"
+    elif text.startswith("add followup") or text.startswith("add follow up") or text.startswith("schedule followup for interaction"):
+        intent = "followup"
+    elif text.startswith("summarize") or text.startswith("summary of"):
+        intent = "summarize"
+        
     state["intent"] = intent
     return state
 

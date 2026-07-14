@@ -32,11 +32,11 @@ export default function ChatWindow() {
 
   return (
     <div className="card" style={{ display: 'flex', flexDirection: 'column', height: '600px', maxHeight: '80vh', padding: '0' }}>
-      <div style={{ padding: '16px 20px', borderBottom: '1px solid #f1f5f9', backgroundColor: '#fff', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}>
-        <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '8px', color: '#3b82f6', fontSize: '18px', fontWeight: 600 }}>
+      <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--border)', backgroundColor: 'transparent', borderTopLeftRadius: '8px', borderTopRightRadius: '8px' }}>
+        <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--primary)', fontSize: '18px', fontWeight: 600 }}>
           🤖 AI Assistant
         </h3>
-        <div style={{ color: '#64748b', fontSize: '13px', marginTop: '4px', marginLeft: '32px' }}>
+        <div style={{ color: 'var(--text-muted)', fontSize: '13px', marginTop: '4px', marginLeft: '32px' }}>
           Log Interaction details here via chat
         </div>
       </div>
@@ -45,14 +45,15 @@ export default function ChatWindow() {
         {messages.length === 0 && (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ 
-              background: '#eaf2fa', 
+              background: 'rgba(6, 182, 212, 0.1)', 
               padding: '16px 20px', 
               borderRadius: '8px', 
-              color: '#334155',
+              color: 'var(--text-main)',
               fontSize: '15px',
               lineHeight: '1.5',
               width: '100%',
-              marginBottom: '16px'
+              marginBottom: '16px',
+              border: '1px solid rgba(6, 182, 212, 0.2)'
             }}>
               Log interaction details here (e.g., "Met Dr. Smith, discussed Prodo-X efficacy, positive sentiment, shared brochure") or ask for help.
             </div>
@@ -62,14 +63,14 @@ export default function ChatWindow() {
                   key={idx}
                   onClick={() => handleSend(prompt)}
                   style={{
-                    background: 'white', border: '1px solid #cbd5e1', color: '#475569',
+                    background: 'rgba(30, 41, 59, 0.6)', border: '1px solid rgba(148, 163, 184, 0.2)', color: 'var(--text-main)',
                     padding: '8px 12px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', textAlign: 'left',
                     transition: 'all 0.2s', alignSelf: 'flex-start'
                   }}
-                  onMouseOver={e => { e.target.style.background = '#f8fafc'; e.target.style.borderColor = '#94a3b8'; }}
-                  onMouseOut={e => { e.target.style.background = 'white'; e.target.style.borderColor = '#cbd5e1'; }}
+                  onMouseOver={e => { e.target.style.background = 'rgba(30, 41, 59, 0.9)'; e.target.style.borderColor = 'rgba(6, 182, 212, 0.4)'; }}
+                  onMouseOut={e => { e.target.style.background = 'rgba(30, 41, 59, 0.6)'; e.target.style.borderColor = 'rgba(148, 163, 184, 0.2)'; }}
                 >
-                  <Sparkles size={14} style={{ display: 'inline', marginRight: '6px', color: '#3b82f6', verticalAlign: 'middle' }} />
+                  <Sparkles size={14} style={{ display: 'inline', marginRight: '6px', color: 'var(--primary)', verticalAlign: 'middle' }} />
                   {prompt}
                 </button>
               ))}
@@ -81,14 +82,14 @@ export default function ChatWindow() {
         ))}
         
         {status === "loading" && (
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#64748b', fontSize: '13px', padding: '12px', alignSelf: 'flex-start', background: '#f8fafc', borderRadius: '16px', borderBottomLeftRadius: '0' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: 'var(--text-muted)', fontSize: '13px', padding: '12px', alignSelf: 'flex-start', background: 'rgba(30, 41, 59, 0.6)', borderRadius: '16px', borderBottomLeftRadius: '0' }}>
             <Loader2 size={16} className="spinner" style={{ animation: 'spin 1s linear infinite' }} />
             AI is thinking...
           </div>
         )}
         
         {status === "failed" && (
-          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#ef4444', fontSize: '13px', padding: '12px', alignSelf: 'flex-start', background: '#fef2f2', borderRadius: '8px', border: '1px solid #fee2e2' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', color: '#ef4444', fontSize: '13px', padding: '12px', alignSelf: 'flex-start', background: 'rgba(239, 68, 68, 0.1)', borderRadius: '8px', border: '1px solid rgba(239, 68, 68, 0.2)' }}>
             <AlertCircle size={16} />
             Failed to send message. Please try again.
           </div>
@@ -96,7 +97,7 @@ export default function ChatWindow() {
         
         <div ref={bottomRef} />
       </div>
-      <div style={{ padding: '16px 20px', borderTop: '1px solid #e5e7eb', backgroundColor: '#fff', borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }}>
+      <div style={{ padding: '16px 20px', borderTop: '1px solid var(--border)', backgroundColor: 'transparent', borderBottomLeftRadius: '8px', borderBottomRightRadius: '8px' }}>
         <ChatInput onSend={handleSend} disabled={status === "loading"} />
       </div>
     </div>

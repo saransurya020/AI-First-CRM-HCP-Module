@@ -36,7 +36,7 @@ export default function FormFields({ formData, onChange }) {
       
       {/* SECTION: Interaction Details */}
       <section>
-        <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#334155', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px', marginBottom: '16px', marginTop: 0 }}>
+        <h4 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-main)', borderBottom: '1px solid var(--border)', paddingBottom: '8px', marginBottom: '16px', marginTop: 0 }}>
           Interaction Details
         </h4>
         
@@ -115,9 +115,9 @@ export default function FormFields({ formData, onChange }) {
           onClick={startListening}
           style={{ 
           display: 'inline-flex', alignItems: 'center', gap: '6px', 
-          background: isListening ? '#fee2e2' : '#f1f5f9', 
-          border: '1px solid', borderColor: isListening ? '#fecaca' : '#e2e8f0', 
-          color: isListening ? '#ef4444' : '#475569', 
+          background: isListening ? 'rgba(239, 68, 68, 0.1)' : 'rgba(30, 41, 59, 0.6)', 
+          border: '1px solid', borderColor: isListening ? 'rgba(239, 68, 68, 0.2)' : 'var(--border)', 
+          color: isListening ? '#ef4444' : 'var(--text-main)', 
           padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 500, cursor: 'pointer', transition: 'all 0.2s' 
         }}>
           <Mic size={14} className={isListening ? "pulse-animation" : ""} /> 
@@ -127,14 +127,14 @@ export default function FormFields({ formData, onChange }) {
 
       {/* SECTION: Materials / Samples */}
       <section>
-        <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#334155', margin: '0 0 12px 0' }}>
+        <h4 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-main)', margin: '0 0 12px 0' }}>
           Materials Shared / Samples Distributed
         </h4>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: 'rgba(30, 41, 59, 0.6)', border: '1px solid var(--border)', borderRadius: '8px' }}>
             <div>
-              <div style={{ fontSize: '14px', fontWeight: 500, color: '#334155', marginBottom: '4px' }}>Materials Shared</div>
-              <div style={{ fontSize: '12px', color: '#94a3b8', fontStyle: formData.materials_shared ? 'normal' : 'italic' }}>
+              <div style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-main)', marginBottom: '4px' }}>Materials Shared</div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontStyle: formData.materials_shared ? 'normal' : 'italic' }}>
                 {formData.materials_shared || "No materials added."}
               </div>
             </div>
@@ -147,15 +147,15 @@ export default function FormFields({ formData, onChange }) {
                   onChange("materials_shared", current ? `${current}, ${item}` : item);
                 }
               }}
-              style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'white', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', color: '#475569' }}>
+              style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(30, 41, 59, 0.9)', border: '1px solid var(--border)', padding: '6px 12px', borderRadius: '6px', fontSize: '13px', cursor: 'pointer', color: 'var(--text-main)' }}>
               <Search size={14} /> Search/Add
             </button>
           </div>
           
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: '#fff', border: '1px solid #e2e8f0', borderRadius: '8px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', background: 'rgba(30, 41, 59, 0.6)', border: '1px solid var(--border)', borderRadius: '8px' }}>
             <div>
-              <div style={{ fontSize: '14px', fontWeight: 500, color: '#334155', marginBottom: '4px' }}>Samples Distributed</div>
-              <div style={{ fontSize: '12px', color: '#94a3b8', fontStyle: formData.samples_distributed ? 'normal' : 'italic' }}>
+              <div style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-main)', marginBottom: '4px' }}>Samples Distributed</div>
+              <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontStyle: formData.samples_distributed ? 'normal' : 'italic' }}>
                 {formData.samples_distributed || "No samples added."}
               </div>
             </div>
@@ -177,12 +177,12 @@ export default function FormFields({ formData, onChange }) {
 
       {/* SECTION: Sentiment */}
       <section>
-        <h4 style={{ fontSize: '15px', fontWeight: 600, color: '#334155', margin: '0 0 12px 0' }}>
+        <h4 style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-main)', margin: '0 0 12px 0' }}>
           Observed/Inferred HCP Sentiment
         </h4>
         <div style={{ display: 'flex', gap: '24px' }}>
           {['positive', 'neutral', 'negative'].map((sent) => (
-            <label key={sent} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '14px', color: '#475569' }}>
+            <label key={sent} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '14px', color: 'var(--text-muted)' }}>
               <input
                 type="radio"
                 name="sentiment"
@@ -202,7 +202,7 @@ export default function FormFields({ formData, onChange }) {
       {/* SECTION: Outcomes */}
       <section>
         <div className="form-field" style={{ marginBottom: 0 }}>
-          <label style={{ fontSize: '15px', fontWeight: 600, color: '#334155', margin: '0 0 8px 0' }}>Outcomes</label>
+          <label style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-main)', margin: '0 0 8px 0' }}>Outcomes</label>
           <textarea
             rows={2}
             value={formData.summary}
@@ -216,7 +216,7 @@ export default function FormFields({ formData, onChange }) {
       {/* SECTION: Follow-up */}
       <section>
         <div className="form-field" style={{ marginBottom: '8px' }}>
-          <label style={{ fontSize: '15px', fontWeight: 600, color: '#334155', margin: '0 0 8px 0' }}>Follow-up Actions</label>
+          <label style={{ fontSize: '15px', fontWeight: 600, color: 'var(--text-main)', margin: '0 0 8px 0' }}>Follow-up Actions</label>
           <textarea
             rows={2}
             value={formData.follow_up_date}
@@ -227,21 +227,21 @@ export default function FormFields({ formData, onChange }) {
         </div>
         
         <div>
-          <div style={{ fontSize: '12px', fontWeight: 600, color: '#64748b', marginBottom: '8px' }}>AI Suggested Follow-ups:</div>
+          <div style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-muted)', marginBottom: '8px' }}>AI Suggested Follow-ups:</div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <div 
               onClick={() => onChange("follow_up_date", formData.follow_up_date ? `${formData.follow_up_date}\n- Schedule follow-up meeting in 2 weeks` : "- Schedule follow-up meeting in 2 weeks")}
-              style={{ color: '#3b82f6', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              style={{ color: 'var(--primary)', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Plus size={14} /> Schedule follow-up meeting in 2 weeks
             </div>
             <div 
               onClick={() => onChange("follow_up_date", formData.follow_up_date ? `${formData.follow_up_date}\n- Send OncoBoost Phase III PDF` : "- Send OncoBoost Phase III PDF")}
-              style={{ color: '#3b82f6', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              style={{ color: 'var(--primary)', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Plus size={14} /> Send OncoBoost Phase III PDF
             </div>
             <div 
               onClick={() => onChange("follow_up_date", formData.follow_up_date ? `${formData.follow_up_date}\n- Add Dr. Sharma to advisory board invite list` : "- Add Dr. Sharma to advisory board invite list")}
-              style={{ color: '#3b82f6', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              style={{ color: 'var(--primary)', fontSize: '13px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Plus size={14} /> Add Dr. Sharma to advisory board invite list
             </div>
           </div>

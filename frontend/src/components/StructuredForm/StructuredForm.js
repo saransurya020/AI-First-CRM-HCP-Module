@@ -37,7 +37,7 @@ export default function StructuredForm() {
 
   return (
     <form className="card" onSubmit={handleSubmit} style={{ height: '600px', display: 'flex', flexDirection: 'column', margin: 0 }}>
-      <h3 style={{ marginTop: 0, marginBottom: '24px', color: '#1e293b' }}>Log HCP Interaction</h3>
+      <h3 style={{ marginTop: 0, marginBottom: '24px', color: 'var(--text-main)' }}>Log HCP Interaction</h3>
       <div style={{ flex: 1, overflowY: 'auto', paddingRight: '8px' }}>
         <FormFields formData={formData} onChange={handleChange} />
       </div>
